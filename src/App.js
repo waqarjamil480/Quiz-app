@@ -70,6 +70,33 @@ function App() {
     const choosen = field => {
         setChoosed(field);
     };
+    /*For Answer*/
+    const answerChoosen = (value, questionNumber) => {
+        const tempQuestions = [...questions];
+
+        //setAnswer(index);
+        //console.log("choosed:" + value); // choosen
+        //console.log(correct);
+        const correct = questions[questionNumber].answer;
+        //console.log("correct:" + correct);
+
+        tempQuestions[questionNumber].answered = value;
+
+        if (value === correct) {
+            console.log("correct");
+            console.log("question index" + questionNumber);
+            tempQuestions[questionNumber].point = 1;
+        } else {
+            tempQuestions[questionNumber].point = 0;
+        }
+
+        console.log(tempQuestions[questionNumber]);
+
+        setQuestions(tempQuestions);
+    };
+
+    /*For Answer*/
+
     return (
         <div className="App">
             {showQuestionWrapper ? (
@@ -104,7 +131,13 @@ function App() {
                                                     questionIndex + 1
                                                 }`}
                                                 value={item}
-                                                // onChange={(e) => setAnswers(e.target.value)}
+                                                onChange={e =>
+                                                    answerChoosen(
+                                                        item,
+                                                        questionIndex
+                                                    )
+                                                }
+                                                required="required"
                                             />
                                             {item}
                                         </label>
@@ -135,19 +168,64 @@ function App() {
                             <th>Percentage</th>
                         </thead>
                         <tbody>
+                            {questions.map((item, index) => {
+                                return (
+                                    <tr>
+                                        <td>{index + 1}</td>
+                                        <td>{item.question}</td>
+                                        <td>
+                                            {item.options.map(
+                                                (sitem, sindex) => {
+                                                    return (
+                                                        <span>
+                                                            {sitem + ", "}
+                                                        </span>
+                                                    );
+                                                }
+                                            )}
+                                        </td>
+                                        <td>
+                                            <b className="answered">
+                                                {item.answered}
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <b>{item.answer}</b>
+                                        </td>
+                                        <td>{item.point}</td>
+                                        <td>Grade</td>
+                                        <td>Percentage</td>
+                                    </tr>
+                                );
+                            })}
+
                             <tr>
-                                <td>No.</td>
-                                <td>Question</td>
-                                <td>Otions</td>
-                                <td>Answered</td>
-                                <td>correct</td>
-                                <td>Score</td>
-                                <td>Grade</td>
-                                <td>Percentage</td>
+                                <td>
+                                    <b>Total Marks</b>
+                                </td>
+                                <td>{questions.length}</td>
+                                <td>
+                                    <b>Obtained Marks</b>
+                                </td>
+
+                                <td>
+                                    {questions.map((item, index) => {
+                                        return <>{item.point}</>;
+                                    })}
+                                </td>
+
+                                <td>
+                                    <b>Percentage</b>
+                                </td>
+                                <td>20%</td>
+                                <td>
+                                    <b>Garde</b>
+                                </td>
+                                <td>A</td>
                             </tr>
                         </tbody>
                     </table>
-
+                    <p></p>
                     <h2>{questionMsg}</h2>
                     <button onClick={retakeQuiz}>Start Quiz</button>
                 </div>
@@ -155,5 +233,4 @@ function App() {
         </div>
     );
 }
-
 export default App;

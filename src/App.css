@@ -1,6 +1,26 @@
-body{
-  background-color: #000;
+:root{
+  --bg: #fafafa;
+  --text-color: #111215;
 }
+.dark{
+  --bg: #111215;
+  --text-color: #fff;
+  --black-font: #111215;
+}
+h1,h2,h3,h4,h5{
+  color: var(--text-color);
+}
+
+
+
+body{
+  background-color: var(--bg);
+  color: var(--text-color);
+}
+
+
+
+
 .App {
   font-family: sans-serif;
   text-align: center;
@@ -24,6 +44,7 @@ ul li {
   padding-left: 0px;
   margin-bottom: 0px;
   padding-bottom: 0px;
+  color: var(--black-font);
 }
 ul li div {
   width: 100%;
@@ -88,3 +109,5 @@ button {
   background-color: #4caf50 !important;
   color: #fff !important;
 }
+
+
