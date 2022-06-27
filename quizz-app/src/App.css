@@ -1,0 +1,90 @@
+body{
+  background-color: #000;
+}
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+.question-wrapper {
+  max-width: 800px;
+  margin: auto;
+  display: block;
+  align-items: center;
+  padding-top: 200px;
+}
+.results {
+  padding-top: 200px;
+}
+ul {
+  padding-left: 0px;
+  text-align: left;
+}
+ul li {
+  list-style: none;
+  padding-left: 0px;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+}
+ul li div {
+  width: 100%;
+  display: flex;
+}
+ul li div label {
+  background-color: #e7e9eb;
+  padding: 15px 10px;
+  margin-bottom: 6px;
+  display: flex;
+  font-size: 18px;
+  align-items: center;
+  width: 100%;
+}
+ul li div label:hover {
+  background-color: #ddd;
+  cursor: pointer;
+}
+
+#result {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#result td,
+#result th {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+#result tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#result tr:hover {
+  background-color: #ddd;
+}
+
+#result th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  background-color: #04aa6d;
+  color: white;
+}
+
+button {
+  background-color: #4caf50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.choosed {
+  background-color: #4caf50 !important;
+  color: #fff !important;
+}
