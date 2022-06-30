@@ -34,6 +34,8 @@ body{
 }
 .results {
   padding-top: 200px;
+  max-width: 1800px;
+  margin: auto;
 }
 ul {
   padding-left: 0px;

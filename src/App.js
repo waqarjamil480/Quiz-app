@@ -3,8 +3,8 @@ import "./App.css";
 
 function App() {
     // taking question index for next question
-
     // stored all questions
+
     const [questions, setQuestions] = useState([
         {
             question: "Inside which HTML element do we put the JavaScript?",
@@ -36,13 +36,14 @@ function App() {
     const [questionIndex, setQuestionIndex] = useState(0);
     const [choosed, setChoosed] = useState(null);
     const [showQuestionWrapper, setShowQuestionWrapper] = useState(true);
+    const [pointValue, setPointValue] = useState(0);
     // const [restartQuiz, setRestartQuiz] = useState(false);
     const [questionMsg, setQuestionmsg] = useState(
         `${1}/${questions.length} Questions attempted`
     );
 
     const showQuestion = () => {
-        console.log("button clicked");
+        // console.log("button clicked");
 
         // beacuse array length is 3 (1 to 3) and index are  (0 to 2 ) to used -1
         if (questionIndex < questions.length - 1) {
@@ -56,6 +57,8 @@ function App() {
             setShowQuestionWrapper(false);
             // alert("on max");
             setQuestionmsg("If you want to retake Quiz click on Below Button");
+
+            console.log(questions);
         }
     };
 
@@ -65,6 +68,17 @@ function App() {
         setShowQuestionWrapper(true);
         setQuestionmsg(`${1}/${questions.length} Questions attempted`);
         setChoosed(null);
+
+        setQuestions(
+            questions.map(item => {
+                return {
+                    question: item.question,
+                    options: item.options,
+                    answer: item.answer,
+                    point: 0,
+                };
+            })
+        );
     };
 
     const choosen = field => {
@@ -73,30 +87,53 @@ function App() {
     /*For Answer*/
     const answerChoosen = (value, questionNumber) => {
         const tempQuestions = [...questions];
-
-        //setAnswer(index);
-        //console.log("choosed:" + value); // choosen
-        //console.log(correct);
         const correct = questions[questionNumber].answer;
-        //console.log("correct:" + correct);
 
         tempQuestions[questionNumber].answered = value;
+        tempQuestions[questionNumber].point = 0;
 
         if (value === correct) {
-            console.log("correct");
-            console.log("question index" + questionNumber);
-            tempQuestions[questionNumber].point = 1;
+            // console.log("correct");
+            // console.log("question index" + questionNumber);
+            setPointValue(1);
+            tempQuestions[questionNumber].point = pointValue;
         } else {
-            tempQuestions[questionNumber].point = 0;
+            setPointValue(0);
+            tempQuestions[questionNumber].point = pointValue;
         }
-
         console.log(tempQuestions[questionNumber]);
 
         setQuestions(tempQuestions);
     };
 
+    const [obtainedPoints, setObtainedPoints] = useState(0);
     /*For Answer*/
 
+    let totalMarks = 10 * questions.length;
+
+    let obtainedMarks =
+        10 * questions.reduce((prev, curr) => prev + curr.point, 0);
+
+    let percentage = (obtainedMarks / totalMarks) * 100;
+
+    /*
+    const [result, setResult] = useState("test");
+
+    
+    console.log("percentage is" + percentage);
+    if (percentage <= 100 && percentage >= 91) {
+        setResult("A");
+    } else if (percentage <= 90 && percentage >= 81) {
+        setResult("B");
+    } else if (percentage <= 80 && percentage >= 71) {
+        setResult("C");
+    } else if (percentage <= 70 && percentage >= 61) {
+        setResult("D");
+    } else {
+        setResult("Fail");
+    }
+*/
+    /*FOR PERCENTAGE*/
     return (
         <div className="App">
             {showQuestionWrapper ? (
@@ -158,14 +195,12 @@ function App() {
                     <h1>Quiz completed</h1>
                     <table id="result">
                         <thead>
-                            <th>No.</th>
+                            <th width="30px">No.</th>
                             <th>Question</th>
                             <th>Otions</th>
                             <th>Answered</th>
                             <th>Correct</th>
-                            <th>Score</th>
-                            <th>Grade</th>
-                            <th>Percentage</th>
+                            <th colSpan={2}>Score</th>
                         </thead>
                         <tbody>
                             {questions.map((item, index) => {
@@ -192,36 +227,27 @@ function App() {
                                         <td>
                                             <b>{item.answer}</b>
                                         </td>
-                                        <td>{item.point}</td>
-                                        <td>Grade</td>
-                                        <td>Percentage</td>
+                                        <td colSpan={2}>{item.point}</td>
                                     </tr>
                                 );
                             })}
 
                             <tr>
-                                <td>
-                                    <b>Total Marks</b>
+                                <td colSpan={2}>
+                                    <b>Total Marks: </b> {totalMarks}
                                 </td>
-                                <td>{questions.length}</td>
-                                <td>
-                                    <b>Obtained Marks</b>
+                                <td colSpan={2}>
+                                    <b>Obtained Marks: </b>
+                                    {obtainedMarks}
                                 </td>
-
-                                <td>
-                                    {questions.map((item, index) => {
-                                        return <>{item.point}</>;
-                                    })}
+                                <td colSpan={2}>
+                                    <b>Percentage: </b>
+                                    {percentage}%
                                 </td>
-
                                 <td>
-                                    <b>Percentage</b>
+                                    <b>Garde: </b>
+                                    {/* {result} */} showing Too many re-renders
                                 </td>
-                                <td>20%</td>
-                                <td>
-                                    <b>Garde</b>
-                                </td>
-                                <td>A</td>
                             </tr>
                         </tbody>
                     </table>
