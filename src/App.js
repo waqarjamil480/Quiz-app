@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import "./App.css";
 
 function App() {
@@ -36,15 +36,17 @@ function App() {
     const [questionIndex, setQuestionIndex] = useState(0);
     const [choosed, setChoosed] = useState(null);
     const [showQuestionWrapper, setShowQuestionWrapper] = useState(true);
-    const [pointValue, setPointValue] = useState(0);
-    // const [restartQuiz, setRestartQuiz] = useState(false);
+    let pointValue = 0;
+
     const [questionMsg, setQuestionmsg] = useState(
         `${1}/${questions.length} Questions attempted`
     );
 
+    const [result, setResult] = useState("YA TO HOGA");
+    const [obtainedPoints, setObtainedPoints] = useState(0);
+
     const showQuestion = () => {
         // console.log("button clicked");
-
         // beacuse array length is 3 (1 to 3) and index are  (0 to 2 ) to used -1
         if (questionIndex < questions.length - 1) {
             setQuestionIndex(questionIndex + 1);
@@ -85,20 +87,30 @@ function App() {
         setChoosed(field);
     };
     /*For Answer*/
+
+    // const [selectedVal, setselectedVal] = React.useState("First");
+
     const answerChoosen = (value, questionNumber) => {
+        //    console.log(event.target.value, event.target.checked)
+        //     setselectedVal(event.target.value)
+
         const tempQuestions = [...questions];
         const correct = questions[questionNumber].answer;
 
         tempQuestions[questionNumber].answered = value;
-        tempQuestions[questionNumber].point = 0;
-
-        if (value === correct) {
+        // tempQuestions[questionNumber].point = 0;
+        if ((value = "")) {
+            pointValue = 0;
+            tempQuestions[questionNumber].point = pointValue;
+        } else if (value === correct) {
             // console.log("correct");
             // console.log("question index" + questionNumber);
-            setPointValue(1);
+            // setPointValue(1);
+            pointValue = 1;
+
             tempQuestions[questionNumber].point = pointValue;
         } else {
-            setPointValue(0);
+            pointValue = 0;
             tempQuestions[questionNumber].point = pointValue;
         }
         console.log(tempQuestions[questionNumber]);
@@ -106,7 +118,6 @@ function App() {
         setQuestions(tempQuestions);
     };
 
-    const [obtainedPoints, setObtainedPoints] = useState(0);
     /*For Answer*/
 
     let totalMarks = 10 * questions.length;
@@ -116,23 +127,24 @@ function App() {
 
     let percentage = (obtainedMarks / totalMarks) * 100;
 
-    /*
-    const [result, setResult] = useState("test");
+    const showGrades = percentageValue => {
+        if (percentageValue <= 100 && percentageValue >= 91) {
+            return "A";
+        } else if (percentageValue <= 90 && percentageValue >= 81) {
+            return "B";
+        } else if (percentageValue <= 80 && percentageValue >= 71) {
+            return "C";
+        } else if (percentageValue <= 70 && percentageValue >= 61) {
+            return "C";
+        } else {
+            return "Fail";
+        }
+    };
 
-    
-    console.log("percentage is" + percentage);
-    if (percentage <= 100 && percentage >= 91) {
-        setResult("A");
-    } else if (percentage <= 90 && percentage >= 81) {
-        setResult("B");
-    } else if (percentage <= 80 && percentage >= 71) {
-        setResult("C");
-    } else if (percentage <= 70 && percentage >= 61) {
-        setResult("D");
-    } else {
-        setResult("Fail");
-    }
-*/
+    // useEffect(() => {
+    //     showGrades(percentage);
+    // }, [percentage]);
+
     /*FOR PERCENTAGE*/
     return (
         <div className="App">
@@ -174,11 +186,10 @@ function App() {
                                                         questionIndex
                                                     )
                                                 }
-                                                required="required"
+                                                // checked={selectedVal === item}
                                             />
                                             {item}
                                         </label>
-                                        <br />
                                     </div>
                                 </li>
                             );
@@ -200,7 +211,9 @@ function App() {
                             <th>Otions</th>
                             <th>Answered</th>
                             <th>Correct</th>
-                            <th colSpan={2}>Score</th>
+                            <th width="100px" colSpan={2}>
+                                Score
+                            </th>
                         </thead>
                         <tbody>
                             {questions.map((item, index) => {
@@ -221,7 +234,7 @@ function App() {
                                         </td>
                                         <td>
                                             <b className="answered">
-                                                {item.answered}
+                                                {item.answer}
                                             </b>
                                         </td>
                                         <td>
@@ -246,7 +259,7 @@ function App() {
                                 </td>
                                 <td>
                                     <b>Garde: </b>
-                                    {/* {result} */} showing Too many re-renders
+                                    {showGrades(percentage)}
                                 </td>
                             </tr>
                         </tbody>
@@ -258,5 +271,6 @@ function App() {
             )}
         </div>
     );
+    showGrades(percentage);
 }
 export default App;
