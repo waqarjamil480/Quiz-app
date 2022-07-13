@@ -99,10 +99,7 @@ function App() {
 
         tempQuestions[questionNumber].answered = value;
         // tempQuestions[questionNumber].point = 0;
-        if ((value = "")) {
-            pointValue = 0;
-            tempQuestions[questionNumber].point = pointValue;
-        } else if (value === correct) {
+        if (value === correct) {
             // console.log("correct");
             // console.log("question index" + questionNumber);
             // setPointValue(1);
@@ -197,7 +194,7 @@ function App() {
                     </ul>
                     <button onClick={showQuestion}>Show Next Question</button>
                     <br />
-                    <b>answer: {questions[questionIndex].answer}</b>
+                    {/* <b>answer: {questions[questionIndex].answer}</b> */}
 
                     <h2>{questionMsg}</h2>
                 </div>
@@ -271,6 +268,5 @@ function App() {
             )}
         </div>
     );
-    showGrades(percentage);
 }
 export default App;
